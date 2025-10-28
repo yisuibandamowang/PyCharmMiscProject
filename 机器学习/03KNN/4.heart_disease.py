@@ -47,24 +47,25 @@ X_test = columnTransformer.transform(X_test)
 print(X_train.shape)
 print(X_test.shape)
 
-# #4. 创建模型
-# knn = KNeighborsClassifier(n_neighbors=3)
-#
-# # 5. 模型训练
-# knn.fit(X_train, y_train)
-#
-# # 6. 模型评估，计算预测准确率
-# score = knn.score(X_test, y_test)
-# print(score)
-#
-# # 7. 保存模型
-# joblib.dump(value=knn, filename="knn_model")
+#创建KNN分类器
+knn = KNeighborsClassifier()
 
-# # 加载模型，对新数据进行预测
-# knn_loaded = joblib.load("knn_model")
-# y_pred = knn_loaded.predict(X_test[10:11])
-# print(f"预测类别：{y_pred}, 真实类别：{y_test[10]}")
+# 定义网格搜索参数列表
+param_grid = {"n_neighbors": list(range(1, 11)), "weights": ["uniform", "distance"]}
 
+grid_search_cv = GridSearchCV(estimator=knn, param_grid=param_grid, cv=10)
 
+# 模型训练
+grid_search_cv.fit(X_train, y_train)
 
+# 打印模型评估结果
+results = pd.DataFrame(grid_search_cv.cv_results_).to_string()
+print(results)
+# 直接获取最佳模型和最佳得分
+print(grid_search_cv.best_estimator_)
+print(grid_search_cv.best_params_)
+print(grid_search_cv.best_score_)
 
+# 使用最佳模型，进行测试评估
+knn = grid_search_cv.best_estimator_
+print(knn.score(X_test, y_test))
