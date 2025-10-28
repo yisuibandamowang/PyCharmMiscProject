@@ -24,3 +24,12 @@ y_pred = model.predict(X_test)
 # 6. 生成评估报告
 report = classification_report(y_test,y_pred)
 print(report)
+
+
+# 获取预测正类的概率值
+y_pred_proba = model.predict_proba(X_test)[:,1]
+# print(y_pred_proba)
+# 计算AUC值
+from sklearn.metrics import roc_auc_score
+auc = roc_auc_score(y_test,y_pred_proba)
+print(auc)
