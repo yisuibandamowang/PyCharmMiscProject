@@ -61,3 +61,29 @@ class Affine:
         self.dW = np.dot(self.X.T, dy)
         self.db = np.sum(dy, axis=0)
         return dX
+
+
+# 输出层
+class SoftmaxWithLoss:
+    # 初始化
+    def __init__(self):
+        self.loss = None
+        self.y = None
+        self.t = None
+    # 前向传播
+    def forward(self, x, t):
+        self.t = t
+        self.y = softmax(x)
+        self.loss = cross_entropy(self.y, self.t)
+        return self.loss
+    # 反向传播
+    def backward(self, dy=1):
+        n = self.t.shape[0]
+        #如果是独热编码的标签就直接带入公司计算
+        if self.t.size == self.y.size:
+            dx = self.y - self.t
+        # 如果是顺序编码的标签 就需要找到分类号对应的值    然后扣减
+        else:
+            dx = self.y.copy()
+            dx[np.arange(n), self.t] -= 1
+        return dx / n
