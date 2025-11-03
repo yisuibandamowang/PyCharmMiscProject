@@ -2,7 +2,7 @@ import numpy as np
 
 
 # 随机梯度下降 SGD
-class SGDR:
+class SGD:
     # 初始化
     def __init__(self, lr=0.01):
         self.lr = lr
