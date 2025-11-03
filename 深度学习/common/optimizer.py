@@ -1,3 +1,4 @@
+import numpy as np
 # 随机梯度下降 SGD
 class SGDR:
     # 初始化
@@ -7,3 +8,23 @@ class SGDR:
     def update(self, params, grads):
         for key in params.keys():
             params[key] -= self.lr * grads[key]
+
+
+#动量法
+class Momentum:
+    # 初始化
+    def __init__(self, lr=0.01, momentum=0.9):
+        self.lr = lr
+        self.momentum = momentum
+        self.v = None    #历史负梯度的加权和
+    # 参数更新
+    def update(self, params, grads):
+        #初始化 v
+        if self.v is None:
+            self.v = {}
+            for key, val in params.items():
+                self.v[key] = np.zeros_like(val)
+        #按照公式进行参数更新
+        for key in params.keys():
+            self.v[key] = self.momentum * self.v[key] - self.lr * grads[key]
+            params[key] += self.v[key]
