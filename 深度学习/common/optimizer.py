@@ -52,3 +52,23 @@ class AdaGrad:
         for key in params.keys():
             self.h[key] += grads[key] * grads[key]
             params[key] -= self.lr * grads[key] / (np.sqrt(self.h[key]) + 1e-8)
+
+# RMSProp
+class RMSProp:
+    # 初始化
+    def __init__(self, lr=0.01, decay=0.99):
+        self.lr = lr
+        self.decay = decay
+        self.h = None
+    # 更新方法
+    def update(self, params, grads):
+        # 对h进行初始化
+        if self.h is None:
+            self.h = {}
+            for key, val in params.items():
+                self.h[key] = np.zeros_like(val)
+        # 按照公式进行参数更新
+        for key in params.keys():
+            self.h[key] *= self.decay
+            self.h[key] += (1 - self.decay) * grads[key] * grads[key]
+            params[key] -= self.lr * grads[key] / (np.sqrt(self.h[key]) + 1e-8)
