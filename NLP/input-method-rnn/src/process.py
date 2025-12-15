@@ -23,14 +23,17 @@ def build_dataset(sentences, tokenizer):
 def process():
     print("开始处理数据")
     # 1.读取文件
-    df = pd.read_json(config.RAW_DATA_DIR / "synthesized_.jsonl", lines=True,
-                      orient="records").sample(frac=0.01)
+    df = (pd.read_json(config.RAW_DATA_DIR / "synthesized_.jsonl", lines=True,
+                      orient="records")
+          .sample(frac=0.01)
+          )
 
     # 2.提取句子
     sentences = []
     for dialog in df['dialog']:
         for sentence in dialog:
             sentences.append(sentence.split('：')[1])
+    # print(sentences[0:10])
     print(f'句子总数:{len(sentences)}')
 
     # 3.划分数据集
