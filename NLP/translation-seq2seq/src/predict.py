@@ -85,7 +85,7 @@ def predict(text, model, zh_tokenizer, en_tokenizer, device):
 def run_predict():
     # 准备资源
     # 1. 确定设备
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('mps' if torch.mps.is_available() else 'cpu')
 
     # 2.分词器
     zh_tokenizer = ChineseTokenizer.from_vocab(config.MODELS_DIR / 'zh_vocab.txt')

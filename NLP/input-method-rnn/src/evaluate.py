@@ -37,7 +37,7 @@ def run_evaluate():
 
     # 3. 模型
     model = InputMethodModel(vocab_size=tokenizer.vocab_size).to(device)
-    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pth'))
+    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pth', map_location=torch.device('cpu')))
     print("模型加载成功")
 
     # 4. 数据集

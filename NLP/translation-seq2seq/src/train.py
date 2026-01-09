@@ -59,7 +59,7 @@ def train_one_epoch(model, dataloader, loss_fn, optimizer, device):
 
 def train():
     # 1. 设备
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('mps' if torch.mps.is_available() else 'cpu')
     # 2. 数据
     dataloader = get_dataloader()
     # 3. 分词器

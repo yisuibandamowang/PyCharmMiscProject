@@ -29,7 +29,7 @@ def evaluate(model, test_dataloader, device, en_tokenizer):
 def run_evaluate():
     # 准备资源
     # 1. 确定设备
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('mps' if torch.mps.is_available() else 'cpu')
 
     # 2.词表
     zh_tokenizer = ChineseTokenizer.from_vocab(config.MODELS_DIR / 'zh_vocab.txt')
@@ -39,7 +39,7 @@ def run_evaluate():
     # 3. 模型
     model = TranslationModel(zh_tokenizer.vocab_size, en_tokenizer.vocab_size, zh_tokenizer.pad_token_index,
                              en_tokenizer.pad_token_index).to(device)
-    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt'))
+    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt', map_location=torch.device('cpu')))
     print("模型加载成功")
 
     # 4. 数据集

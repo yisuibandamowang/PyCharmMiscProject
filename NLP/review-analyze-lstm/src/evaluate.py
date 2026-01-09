@@ -36,7 +36,7 @@ def run_evaluate():
 
     # 3. 模型
     model = ReviewAnalyzeModel(vocab_size=tokenizer.vocab_size, padding_index=tokenizer.pad_token_index).to(device)
-    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt'))
+    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt', map_location=torch.device('cpu')))
     print("模型加载成功")
 
     # 4. 数据集

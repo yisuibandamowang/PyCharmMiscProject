@@ -44,7 +44,7 @@ def run_predict():
 
     # 3. 模型
     model = ReviewAnalyzeModel(tokenizer.vocab_size, tokenizer.pad_token_index).to(device)
-    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt',map_location=torch.device('mps')))
+    model.load_state_dict(torch.load(config.MODELS_DIR / 'best.pt', map_location=torch.device('cpu')))
     print("模型加载成功")
 
     print("欢迎情感分析模型(输入q或者quit退出)")
